@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "health-etl"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "dagster>=1.8",
+    "dagster-webserver>=1.8",
+    "polars>=1.0",
+    "pyarrow>=16.0",
+    "duckdb>=1.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "dagster-webserver>=1.8",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["health_etl*"]
+
+[tool.dagster]
+module_name = "health_etl.definitions"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

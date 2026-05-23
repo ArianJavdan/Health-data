@@ -1,0 +1,6 @@
+storage:
+  sqlite:
+    base_dir: .dagster
+
+telemetry:
+  enabled: false
