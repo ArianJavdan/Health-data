@@ -5,10 +5,11 @@ for a downstream training recommendation engine.
 
 ## What it does
 
-Reads Apple Health data → computes recovery, fitness, and training load metrics → writes
-a queryable `daily_summary` table to DuckDB that a frontend or AI can consume.
+Once fully implemented (steps 2–7), it will read Apple Health data → compute recovery,
+fitness, and training load metrics → write a queryable `daily_summary` table to DuckDB
+that a frontend or AI can consume.
 
-**Key output metrics per day:**
+**Planned output metrics per day (available once step 7 is complete):**
 - `recovery_score` (0–100) + `recovery_status` label (Well Rested / Good / OK / Tired / Fatigued)
 - `training_recommendation` (Push Hard / Train Normally / Moderate Intensity / Light Activity Only / Rest Day)
 - Sleep: `sleep_score`, `deep_pct`, `rem_pct`, `sleep_efficiency`
@@ -40,10 +41,10 @@ cp .env.example .env
 #    Health app → profile picture → Export All Health Data → unzip → copy export.xml
 cp ~/Downloads/apple_health_export/export.xml data/raw/export.xml
 
-# 4. Run the full pipeline
+# 4. Run the full pipeline (available once steps 2–7 are implemented)
 dagster asset materialize --select '*'
 
-# 5. Query results
+# 5. Query results (available once step 7 is implemented)
 duckdb data/processed/health.duckdb \
   "SELECT date, recovery_score, recovery_status, training_recommendation FROM daily_summary ORDER BY date DESC LIMIT 7"
 ```

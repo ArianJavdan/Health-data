@@ -25,8 +25,9 @@ Build a memory-efficient, streaming XML parser in `health_etl/assets/raw/parser.
   - 0 → InBed, 1 → Asleep (legacy), 2 → Awake, 3 → Core, 4 → Deep, 5 → REM
 
 ## Technical notes
-- `startDate` / `endDate` are ISO-8601 strings with timezone offset, e.g. `2024-01-15 06:42:00 +0200`
-- Parse dates with `datetime.fromisoformat` (Python 3.11+ handles the space-separated format)
+- `startDate` / `endDate` are strings like `2024-01-15 06:42:00 +0200` (space-separated, no colon in offset)
+- `datetime.fromisoformat` does **not** reliably parse `+HHMM` offsets without a colon; use
+  `datetime.strptime(s, "%Y-%m-%d %H:%M:%S %z")` which handles both `+HHMM` and `+HH:MM` forms
 - Apple may export duplicate records from multiple sources (iPhone + Watch); keep the Watch source
   as the primary and flag duplicates for deduplication in the raw asset layer
 - The XML root element is `<HealthData>`, containing `<ExportDate>`, `<Me>`, and then thousands of

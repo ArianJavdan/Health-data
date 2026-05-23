@@ -58,8 +58,8 @@ def resp_delta_to_score(delta: float) -> float:
 def compute_recovery_score(row) -> float:
     hrv_component   = zscore_to_score(row.hrv_zscore)    * 0.40
     rhr_component   = rhr_delta_to_score(row.rhr_delta_bpm) * 0.25
-    sleep_component = (row.sleep_score or 50.0)           * 0.25
-    resp_component  = resp_delta_to_score(row.resp_rate_delta or 0) * 0.10
+    sleep_component = (50.0 if row.sleep_score is None else row.sleep_score) * 0.25
+    resp_component  = resp_delta_to_score(0 if row.resp_rate_delta is None else row.resp_rate_delta) * 0.10
 
     score = hrv_component + rhr_component + sleep_component + resp_component
 
